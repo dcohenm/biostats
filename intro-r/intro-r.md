@@ -145,8 +145,6 @@ pima$insulin[pima$insulin == 0] <- NA
 pima$bmi[pima$bmi == 0] <- NA 
 ```
 
-
-
 16. El índice de masa corporal (bmi) es el peso de una persona (en kg) dividido por el 
 cuadrado de la altura (en m). Si bmi está entre 25 a <30 se considera con 
 sobrepeso. Si su IMC es 30.0 o superior, obesidad. Genere la variable cat_peso. 
@@ -170,71 +168,3 @@ colnames(pima)[7]<-"diabetes_gen"
 head(pima)
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
