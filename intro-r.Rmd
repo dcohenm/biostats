@@ -1,0 +1,240 @@
+---
+title: "Introduccón al manejo de datos con R"
+output:
+  html_notebook: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+## Descripción General
+
+Este documento proporciona una introducción al manejo de datos con R. A lo largo del tutorial, exploraremos diferentes aspectos del manejo de datos utilizando ejemplos prácticos.
+
+
+Los siguientes datos indican el contenido de nitrógeno obtenido en 4 lagunas pampeanas el mes pasado (en µg/L):
+
+5051.2, 6193.6, 3684.8 4928
+
+1. Construya el vector con los datos, asignándole el nombre nitro
+```{r}
+nitro <- c(5051.2, 6193.6, 3684.8, 4928)
+```
+
+2. Verifique que el tipo de datos ingresados sea numérico.
+```{r}
+class(nitro) 
+```
+
+3. Verifique que la cantidad de datos ingresados sea la correcta
+```{r}
+length(nitro)
+```
+4. Visualice el vector
+```{r}
+nitro
+```
+5. Se desea expresar el contenido de nitrógeno en mg/L. Genere el vector 
+correspondiente y denomínelo Nmg, para esto dividimos el vector por 1000 con 
+el siguiente script
+
+
+```{r}
+Nmg <- nitro/1000
+Nmg
+```
+6. Se quiere identificar cada laguna con un número secuencial (de 1 a 4). 
+Genere el vector correspondiente, nombrándolo Id
+```{r}
+id <- c(1:4)
+id
+```
+7. Los datos correspondieron a las lagunas Chascomús, Chis-Chis, El Burro y 
+Adela respectivamente. Genere el vector laguna
+```{r}
+laguna <- c("Chascomus", "Chris-Chris","El Burro","Adela")
+laguna
+```
+8. Construya el dataframe bd con el Id, el nombre de la laguna y el contenido 
+de N en mg/L uniendo los vectores.
+```{r}
+bd <- data.frame(id,laguna,Nmg)
+bd
+```
+9. Calcule el promedio del contenido de nitrógeno
+```{r}
+promedio <- mean(bd$Nmg)
+promedio
+```
+**Utilizando el dataframe bd**
+
+10. Seleccione el contenido de N correspondiente a la laguna Chis-Chis y 
+Adela
+```{r}
+chris = subset(bd, laguna == "Chris-Chris" )
+chris
+```
+
+
+11. Seleccione las lagunas con contenido de N superior a 5 mg/L
+```{r}
+n_5 = subset(bd, Nmg > 5) 
+n_5
+```
+
+
+12. Seleccione los datos correspondientes a la laguna Adela
+```{r}
+Adela = subset(bd, laguna == "Adela" )
+Adela
+```
+**Instale el paquete faraway**
+```{r}
+#install.packages(faraway)
+library(faraway)
+```
+
+13. Explore la base de datos pima contenida en dicho paquete.
+
+```{r}
+# Cargamos la base de datos 'pima' contenida en el paquete 'faraway'.
+pima <- faraway::pima
+head(pima) 
+```
+
+
+* ¿Cuáles y cuántas variables posee? 
+```{r}
+ncol(pima) # Número de variables
+names(pima) # Nombres de las columnas
+```
+
+* ¿De qué tipo son?
+```{r}
+sapply(pima, class) 
+```
+* ¿Cuántos casos?
+```{r}
+nrow(pima) # Número de casos
+```
+*¿Hay datos faltantes?
+```{r}
+colSums(is.na(pima)) #suma los datos faltantes de cada columna 
+```
+14. ¿Para qué se utiliza la función summary(bd)? Aplíquela
+
+La función summary() en R se utiliza para obtener un resumen estadístico de un objeto, como un dataframe, una matriz o un vector. El resumen proporciona información útil sobre las estadísticas descriptivas de los datos en el objeto. El propósito principal de summary() es proporcionar un vistazo rápido a los datos, especialmente cuando trabajas con conjuntos de datos grandes o complejos
+
+```{r}
+summary(pima)
+```
+
+15. Analice el rango de las variables. ¿Detecta alguna inconsistencia?
+
+Las variables glucose, diastolic, triceps, insulin y bmi tienen casos con el valor 0, sabemo
+que eso no es posible, vamos a reemplazar esos valores por NA.
+
+```{r}
+#Cambio los ceros por NA
+
+pima$glucose[pima$glucose == 0] <- NA
+pima$diastolic[pima$diastolic == 0] <- NA 
+pima$triceps[pima$triceps == 0] <- NA 
+pima$insulin[pima$insulin == 0] <- NA 
+pima$bmi[pima$bmi == 0] <- NA 
+```
+
+
+
+16. El índice de masa corporal (bmi) es el peso de una persona (en kg) dividido por el 
+cuadrado de la altura (en m). Si bmi está entre 25 a <30 se considera con 
+sobrepeso. Si su IMC es 30.0 o superior, obesidad. Genere la variable cat_peso. 
+Clasifique a las pacientes según su peso en normales, con sobrepeso o con 
+obesidad. Ayuda: explore la función ifelse
+
+```{r}
+pima$cat_peso <- ifelse(pima$bm < 25, "Normal",
+                 ifelse(pima$bm >= 25 & pima$bm < 30, "Con sobrepeso",
+                 "Obesidad"))
+```
+
+
+17. Genere la variable diabetes a partir de test (sí = 1, no=0)
+
+```{r}
+pima$result <- ifelse(pima$test == 1, "si","no")
+
+colnames(pima)[7]<-"diabetes_gen" 
+
+head(pima)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
